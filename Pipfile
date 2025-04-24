@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+flask-sqlalchemy = "*"
+flask-login = "*"
+werkzeug = "*"
+flask = {extras = ["async"], version = "*"}
+pymysql = "*"
+cryptography = "*"
+bcrypt = "*"
+pytz = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.11"
