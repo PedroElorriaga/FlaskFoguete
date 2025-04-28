@@ -12,6 +12,9 @@ pymysql = "*"
 cryptography = "*"
 bcrypt = "*"
 pytz = "*"
+qrcode = "*"
+pillow = "*"
+flask-socketio = "*"
 
 [dev-packages]
 
