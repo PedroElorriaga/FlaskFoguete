@@ -3,12 +3,14 @@ from database.database import db
 from models.payment import Payment
 from datetime import timedelta, datetime
 from payments_methods.pix import Pix
+from flask_socketio import SocketIO
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SECRET_KEY'] = 'SECRET_KEY_WEBSOCKET'
 
 db.init_app(app)
+socketio = SocketIO(app)
 
 
 @app.route('/payments/pix', methods=['POST'])
@@ -42,15 +44,58 @@ def get_qrcode_file(file):
 
 
 @app.route('/payments/pix/<qrcode_id>', methods=['GET'])
-def view_test(qrcode_id):
+def view_payment(qrcode_id):
     data_from_db = Payment.query.filter_by(id=qrcode_id).first()
 
-    return render_template('payment.html',
-                           host='http://localhost:5000',
-                           qrcode=data_from_db.qr_code,
-                           value=data_from_db.value,
-                           payment_id=data_from_db.id)
+    if data_from_db:
+        if data_from_db.paid:
+            return render_template('confirmed_payment.html',
+                                   host='http://localhost:5000',
+                                   qrcode=data_from_db.qr_code,
+                                   value=data_from_db.value,
+                                   payment_id=data_from_db.id)
+
+        return render_template('payment.html',
+                               host='http://localhost:5000',
+                               qrcode=data_from_db.qr_code,
+                               value=data_from_db.value,
+                               payment_id=data_from_db.id)
+
+    return render_template('404.html')
+
+
+@app.route('/payments/pix/confirmed', methods=['POST'])
+def pix_confirmation():
+    data = request.json
+
+    payment_from_db = Payment.query.filter_by(
+        bank_payment_id=data['bank_payment_id']).first()
+
+    if not payment_from_db:
+        return jsonify({"message": "Something wrong with your request"}), 403
+
+    if not data['value'] or data['value'] != payment_from_db.value or payment_from_db.paid:
+        return jsonify({"message": "Something wrong with your request"}), 403
+
+    payment_from_db.paid = True
+
+    db.session.commit()
+    db.session.refresh(payment_from_db)
+
+    socketio.emit(f'payment-confirmed-{payment_from_db.id}')
+
+    return jsonify({"message": "Payment recived with success"})
+
+
+@socketio.on('connect')
+def client_connection():
+    print('Cliente conectado')
+
+
+@socketio.on('disconnect')
+def client_disconnect():
+    print('Cliente desconectado')
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    socketio.run(app, debug=True)

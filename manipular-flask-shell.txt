@@ -1,0 +1,6 @@
+Ao entrar no shell -> flask shell
+
+payment = Payment.query.get(3) -> Busca o id 3
+
+payment.paid = False -> Atribui novo valor
+db.session.commit() -> Atualiza o banco
