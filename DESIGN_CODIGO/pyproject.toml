@@ -1,0 +1,3 @@
+[tool.taskipy.tasks]
+test = "set PYTHONPATH=. && pytest -s src/tests/. -v"
+run = "python run.py"
