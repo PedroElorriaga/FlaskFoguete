@@ -1,4 +1,4 @@
-from src.tests.mocks.mock_request import MockRequest
+from src.main.tests.mocks.mock_request import MockRequest
 from src.calculators.calculator_1 import Calculator1
 import pytest
 
