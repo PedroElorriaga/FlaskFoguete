@@ -17,6 +17,7 @@ pillow = "*"
 flask-socketio = "*"
 pytest = "*"
 taskipy = "*"
+numpy = "*"
 
 [dev-packages]
 
