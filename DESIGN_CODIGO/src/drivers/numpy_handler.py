@@ -1,8 +1,9 @@
 import numpy
 from typing import List
+from .interfaces.numpy_handler_interface import DriverHandlingInterface
 
 
-class NumpyHandle:
+class NumpyHandler(DriverHandlingInterface):
     def __init__(self):
         self.__np = numpy
 

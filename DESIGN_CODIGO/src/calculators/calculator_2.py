@@ -1,8 +1,11 @@
 from typing import Dict, List
-from src.drivers.numpy_handler import NumpyHandle
+from src.drivers.interfaces.numpy_handler_interface import DriverHandlingInterface
 
 
 class Calculator2:
+    def __init__(self, driver_numpy: DriverHandlingInterface) -> None:
+        self.__driver_numpy = driver_numpy
+
     def calculate(self, request: Dict) -> Dict:
         data = request.json
         numbers_list = self.__validate_input(data)
@@ -30,8 +33,7 @@ class Calculator2:
         return list_multiplicated_numbers
 
     def __value_inverse(self, numbers: List[float]) -> float:
-        np_instance = NumpyHandle()
-        inverse_value = 1/np_instance.standard_deviation(numbers)
+        inverse_value = 1/self.__driver_numpy.standard_deviation(numbers)
 
         return inverse_value
 
