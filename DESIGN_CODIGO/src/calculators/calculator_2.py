@@ -1,5 +1,5 @@
 from typing import Dict, List
-import numpy as pd
+from src.drivers.numpy_handler import NumpyHandle
 
 
 class Calculator2:
@@ -30,7 +30,8 @@ class Calculator2:
         return list_multiplicated_numbers
 
     def __value_inverse(self, numbers: List[float]) -> float:
-        inverse_value = 1/pd.std(numbers)
+        np_instance = NumpyHandle()
+        inverse_value = 1/np_instance.standard_deviation(numbers)
 
         return inverse_value
 
