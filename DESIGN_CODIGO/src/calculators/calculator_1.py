@@ -13,11 +13,11 @@ class Calculator1:
 
         return self.__format_result(result)
 
-    def __validate_input(self, data) -> float:
-        if 'number' not in data or type(data['number']) != float:
+    def __validate_input(self, data: Dict) -> float:
+        if 'number' not in data:
             raise Exception('Valor invalido')
 
-        return data['number']
+        return float(data['number'])
 
     def __fisrt_operation(self, number: float) -> float:
         result = (((number / 4) + 7) ** 2) * 0.257

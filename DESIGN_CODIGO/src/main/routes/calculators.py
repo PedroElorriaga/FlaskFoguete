@@ -13,8 +13,15 @@ def testing_host():
 
 @calculators_route.route('/calculate', methods=['POST'])
 def calculate():
-    calculator_instance = Calculator1()
-    response = calculator_instance.calculate(request)
+    try:
+        calculator_instance = Calculator1()
+        response = calculator_instance.calculate(request)
+    except Exception as excinfo:
+        return jsonify({
+            "success": False,
+            "response": str(excinfo)
+        })
+
     return jsonify({
         "sucess": True,
         "response": response

@@ -3,8 +3,10 @@ from src.calculators.calculator_1 import Calculator1
 import pytest
 
 
+mock_request = MockRequest(body={'number': 3.0})
+
+
 def test_format():
-    mock_request = MockRequest(body={'number': 3.0})
     calculator_instance = Calculator1()
 
     response = calculator_instance.calculate(mock_request)
@@ -14,7 +16,6 @@ def test_format():
 
 
 def test_results():
-    mock_request = MockRequest(body={'number': 3.0})
     calculator_instance = Calculator1()
 
     response = calculator_instance.calculate(mock_request)
@@ -24,10 +25,10 @@ def test_results():
 
 
 def test_error_handle():
-    mock_request = MockRequest(body={'number': 3})
+    mock_request_error = MockRequest(body={'num': 3})
     calculator_instance = Calculator1()
 
     with pytest.raises(Exception) as excinfo:
-        calculator_instance.calculate(mock_request)
+        calculator_instance.calculate(mock_request_error)
 
     assert str(excinfo.value) == 'Valor invalido'
