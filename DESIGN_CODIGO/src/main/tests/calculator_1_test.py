@@ -1,5 +1,6 @@
 from src.main.tests.mocks.mock_request import MockRequest
 from src.calculators.calculator_1 import Calculator1
+from src.main.factory.calculator1_factory import calculator1_factory
 import pytest
 
 
@@ -7,18 +8,18 @@ mock_request = MockRequest(body={'number': 3.0})
 
 
 def test_format():
-    calculator_instance = Calculator1()
+    calculator = calculator1_factory()
 
-    response = calculator_instance.calculate(mock_request)
+    response = calculator.calculate(mock_request)
 
     assert 'calculator_type' in response
     assert 'result' in response
 
 
 def test_results():
-    calculator_instance = Calculator1()
+    calculator = calculator1_factory()
 
-    response = calculator_instance.calculate(mock_request)
+    response = calculator.calculate(mock_request)
 
     assert response['result'] == 15.71
     assert response['calculator_type'] == 'Calculator1'
@@ -26,9 +27,9 @@ def test_results():
 
 def test_error_handle():
     mock_request_error = MockRequest(body={'num': 3})
-    calculator_instance = Calculator1()
+    calculator = calculator1_factory()
 
     with pytest.raises(Exception) as excinfo:
-        calculator_instance.calculate(mock_request_error)
+        calculator.calculate(mock_request_error)
 
     assert str(excinfo.value) == 'Valor invalido'

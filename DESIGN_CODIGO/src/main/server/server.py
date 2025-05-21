@@ -1,7 +1,5 @@
 from flask import Flask
-from src.main.routes.calculator_1 import calculators_route_1
-from src.main.routes.calculator_2 import calculators_route_2
+from src.main.routes.calculators import calculators_route
 
 app = Flask(__name__)
-app.register_blueprint(calculators_route_1, url_prefix='/calculator1')
-app.register_blueprint(calculators_route_2, url_prefix='/calculator2')
+app.register_blueprint(calculators_route, url_prefix='/calculator')
