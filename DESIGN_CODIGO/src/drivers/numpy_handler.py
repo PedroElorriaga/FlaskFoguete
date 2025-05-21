@@ -12,6 +12,7 @@ class NumpyHandler(DriverHandlingInterface):
         return self.__np.std(numbers)
 
     def variance(self, numbers: List[float]) -> float:
-        var = self.__np.var(numbers, dtype=self.__np.float64)
+        return self.__np.var(numbers, dtype=self.__np.float64)
 
-        return var
+    def med(self, numbers: List[float]) -> float:
+        return self.__np.mean(numbers)
