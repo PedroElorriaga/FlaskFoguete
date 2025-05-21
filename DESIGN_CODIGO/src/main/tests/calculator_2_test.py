@@ -1,6 +1,4 @@
-from src.calculators.calculator_2 import Calculator2
 from src.main.tests.mocks.mock_request_calculator_2 import MockRequestCalculator2
-from src.drivers.numpy_handler import NumpyHandler
 from src.main.factory.calculator2_factory import calculator2_factory
 import pytest
 
@@ -17,7 +15,6 @@ def test_format():
 
 
 def test_results():
-    np_handler = NumpyHandler()
     calculator = calculator2_factory()
     response = calculator.calculate(mock_request)
 
