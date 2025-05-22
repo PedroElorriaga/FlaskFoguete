@@ -1,4 +1,4 @@
-from src.main.factory.calculator4_factory import calculator4_factory
+from src.factory.calculator4_factory import calculator4_factory
 from src.main.tests.mocks.mock_request_calculator_2 import MockRequestCalculator2
 import pytest
 

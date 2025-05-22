@@ -1,5 +1,5 @@
 from src.main.tests.mocks.mock_request_calculator_2 import MockRequestCalculator2
-from src.main.factory.calculator2_factory import calculator2_factory
+from src.factory.calculator2_factory import calculator2_factory
 import pytest
 
 
