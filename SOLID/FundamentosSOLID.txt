@@ -1,0 +1,7 @@
+Principios SOLID
+
+S -> Single Responsability
+O -> Open/Closed
+L -> Liskov Substitution
+I -> Interface Segregation
+D -> Dependency Inversion
