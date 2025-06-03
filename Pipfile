@@ -18,6 +18,7 @@ flask-socketio = "*"
 pytest = "*"
 taskipy = "*"
 numpy = "*"
+redis = "*"
 
 [dev-packages]
 

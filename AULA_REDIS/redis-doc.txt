@@ -1,0 +1,6 @@
+
+REDIS É UM BANCO DE CHAVE E VALOR NOSQL, QUE ARMAZENA OS VALORES NA RAM (MAIS RAPIDO)
+
+1 - Baixamos o another redis desktop manager
+2 - Baixamos o imagem do redis no docker docker run -d --name redis -p 6379:6379 redis
+3 - Instalamos a biblioteca redis no python
