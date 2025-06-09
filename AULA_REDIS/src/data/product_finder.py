@@ -25,7 +25,7 @@ class ProductFinder:
     def __find_product_by_redis(self, product_name: str) -> tuple:
         product_info = self.__redis_repository.get_key(product_name)
         if product_info:
-            product_info_list = product_info.split(",")
+            product_info_list = product_info.split(',')
             return (0, product_name, product_info_list[0], product_info_list[1])
 
         return None
@@ -34,13 +34,13 @@ class ProductFinder:
         product_info = self.__product_repository.find_product_by_name(
             product_name)
         if not product_info:
-            raise Exception("Produto nao econtrado")
+            raise Exception('Produto nao econtrado')
 
         return product_info
 
     def __insert_product_in_redis(self, product: tuple) -> None:
         self.__redis_repository.insert_with_expiration(
-            product[1], f"{product[2]},{product[3]}", 10)
+            product[1], f'{product[2]},{product[3]}', 10)
 
     def __format_http_reponse(self, product: tuple) -> HttpResponse:
         return HttpResponse(

@@ -1,4 +1,6 @@
+import pytest
 from .product_finder import ProductFinder
+from .product_creator import ProductCreator
 from src.models.redis.settings.connection import RedisConnectionHandler
 from src.models.sqlite.settings.connection import SqliteConnectionHandler
 from src.models.redis.repository.redis_repository import RedisRepository
@@ -11,6 +13,7 @@ connection_sqlite_instance = SqliteConnectionHandler()
 connection_sqlite = connection_sqlite_instance.connect()
 
 
+@pytest.mark.skip(reason="Integração concluida")
 def test_find_product():
     redis_repository_instance = RedisRepository(connection_redis)
     sqlite_repository_instance = ProductRepository(connection_sqlite)
@@ -25,3 +28,23 @@ def test_find_product():
 
     print(response.body)
     print(response.status)
+
+
+@pytest.mark.skip(reason="Integração concluida")
+def teste_create_product():
+    redis_repository_instance = RedisRepository(connection_redis)
+    sqlite_repository_instance = ProductRepository(connection_sqlite)
+
+    product_creator_instance = ProductCreator(
+        redis_repository_instance, sqlite_repository_instance)
+
+    http_request = HttpRequest(
+        {
+            "name": "MockProduct",
+            "price": 19.90,
+            "quantity": 7
+        }
+    )
+
+    response = product_creator_instance.create_product(http_request)
+    print(response.body)
