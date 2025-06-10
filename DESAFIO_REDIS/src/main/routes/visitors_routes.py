@@ -7,19 +7,16 @@ visitors_router = Blueprint(
 
 @visitors_router.route('/', methods=['GET'])
 def get_visitors() -> jsonify:
-    visitor_insert = visitor_compose()
-    visitor_insert.insert_visitor()
+    visitor = visitor_compose()
+    visitor.insert_visitor()
 
     return jsonify({"message": "Visitou a pagina"})
 
 
 @visitors_router.route('/quantity', methods=['GET'])
 def get_visitors_quantity() -> jsonify:
-    visitor_insert = visitor_compose()
-    response = visitor_insert.get_visitor()
-
-    if not response:
-        response = 0
+    visitor = visitor_compose()
+    response = visitor.get_visitor() or 0
 
     return jsonify(
         {
