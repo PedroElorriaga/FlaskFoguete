@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class MongoInterface(ABC):
+class OrderInterface(ABC):
     @abstractmethod
     def insert_data(self, data: dict) -> None:
         pass

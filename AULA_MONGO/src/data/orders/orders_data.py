@@ -1,8 +1,8 @@
-from src.models.mongodb.repository.interface.mongo_interface import MongoInterface
+from src.models.mongodb.repository.interface.order_interface import OrderInterface
 
 
 class OrdersData:
-    def __init__(self, orders_repository: MongoInterface) -> None:
+    def __init__(self, orders_repository: OrderInterface) -> None:
         self.__orders_repository = orders_repository
 
     def insert_order(self, data: dict) -> None:
