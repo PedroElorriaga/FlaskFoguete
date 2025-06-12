@@ -1,0 +1,9 @@
+1 -> mongosh mongodb://localhost:27017 Para acessar o mongodb
+
+2 -> show dbs Para mostrar os databases do mongodb
+
+3 -> use nome_banco Para usar o banco desejado
+
+4 -> db.minha_collection.find() Para buscar todos os dados da collection
+
+-> Tips: db.minha_collection.drop() Deleta a collection MUITO CUIDADO
