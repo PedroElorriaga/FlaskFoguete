@@ -7,3 +7,107 @@
 4 -> db.minha_collection.find() Para buscar todos os dados da collection
 
 -> Tips: db.minha_collection.drop() Deleta a collection MUITO CUIDADO
+
+
+
+# Comandos Mais Utilizados no mongosh
+
+---
+
+## 1. Conexão e Banco de Dados
+
+- `mongo`  
+  Inicia o shell do `mongosh` (legacy).  
+- `mongosh <URI>`  
+  Conecta a um servidor MongoDB. Ex:  
+  `mongosh "mongodb://user:senha@host:27017/meuBanco"`  
+- `use <nome_do_banco>`  
+  Alterna para o banco de dados indicado.  
+- `db`  
+  Exibe o banco de dados atual.  
+- `db.getName()`  
+  Retorna o nome do banco atual.
+
+---
+
+## 2. Listagem de Collections
+
+- `show collections`  
+  Lista todas as collections do banco atual.  
+- `db.getCollectionNames()`  
+  Mesma função via método da API.  
+- `db.getCollectionInfos()`  
+  Traz detalhes de cada collection (tamanho, opções…).
+
+---
+
+## 3. Manipulação de Documentos
+
+### 3.1 Busca (Read)
+
+- `db.minhaColecao.find()`  
+  Retorna **todos** os documentos.  
+- `db.minhaColecao.find({ filtro })`  
+  Busca com critério.  
+- `db.minhaColecao.find().pretty()`  
+  Formata a saída para leitura.  
+- `db.minhaColecao.find().sort({ campo: 1 })`  
+  Ordena ascendente (use `-1` para descendente).  
+- `db.minhaColecao.find().limit(n)`  
+  Limita a n resultados.  
+- `db.minhaColecao.find().skip(n)`  
+  Pula os primeiros n resultados.
+
+### 3.2 Inserção (Create)
+
+- `db.minhaColecao.insertOne({ … })`  
+  Insere um documento.  
+- `db.minhaColecao.insertMany([ … ])`  
+  Insere vários documentos.
+
+### 3.3 Atualização (Update)
+
+- `db.minhaColecao.updateOne({ filtro }, { $set: { … } })`  
+  Atualiza o primeiro documento que casar com o filtro.  
+- `db.minhaColecao.updateMany({ filtro }, { $set: { … } })`  
+  Atualiza todos os documentos que casarem.  
+- `db.minhaColecao.replaceOne({ filtro }, { documentoInteiro })`  
+  Substitui todo o documento.
+
+### 3.4 Remoção (Delete)
+
+- `db.minhaColecao.deleteOne({ filtro })`  
+  Remove o primeiro documento que casar.  
+- `db.minhaColecao.deleteMany({ filtro })`  
+  Remove todos os documentos que casarem.
+- `db.orders.deleteMany({"campo": {"$exists" : true}})`
+  Remove todos os documentos que tiver o campo.
+
+### 3.5 Agregações (Aggregation)
+
+- `db.minhaColecao.aggregate([ … ])`  
+  Executa um pipeline de agregação.
+
+---
+
+## 4. Usuários e Permissões (Admin)
+
+> *Geralmente requer privilégios de administrador*
+
+- `db.createUser({ user, pwd, roles: […] })`  
+- `db.getUser("usuario")`  
+- `db.updateUser("usuario", { pwd: "...", roles: […] })`  
+- `db.dropUser("usuario")`  
+- `db.grantRolesToUser("usuario", […])`  
+- `db.revokeRolesFromUser("usuario", […])`
+
+---
+
+## 5. Outros Comandos Úteis
+
+- `help`  
+  Exibe ajuda no shell.  
+- `exit` ou `quit()`  
+  Sai do `mongosh`.  
+- `.load("script.js")`  
+  Executa um arquivo JavaScript.
