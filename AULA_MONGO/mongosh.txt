@@ -81,7 +81,7 @@
 - `db.minhaColecao.deleteMany({ filtro })`  
   Remove todos os documentos que casarem.
 - `db.orders.deleteMany({"campo": {"$exists" : true}})`
-  Remove todos os documentos que tiver o campo.
+  Remove todos os documentos que tiver o campo selecionado.
 
 ### 3.5 Agregações (Aggregation)
 

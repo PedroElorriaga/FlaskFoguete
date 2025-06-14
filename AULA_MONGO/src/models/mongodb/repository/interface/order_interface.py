@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import List
 
+# TODO descontinuar
+
 
 class OrderInterface(ABC):
     @abstractmethod
@@ -24,5 +26,9 @@ class OrderInterface(ABC):
         pass
 
     @abstractmethod
-    def find_data_by_id(self, id: str) -> None:
+    def find_data_by_id(self, id: str) -> dict:
+        pass
+
+    @abstractmethod
+    def update_data_by_id(self, id: str, data: dict) -> bool:
         pass

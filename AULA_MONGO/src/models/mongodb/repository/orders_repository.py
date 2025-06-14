@@ -30,27 +30,52 @@ class OrdersRepository(OrderInterface):
         response = mongo_collection.find(
             {parameter: {"$exists": True}}
         )
+        response_len = 0
 
         # FAZEMOS ISSO QUANDO TEMOS UM RETORNO COMO UM CURSOR (RETORNO DE UM BANCO DE DADOS)
         for response_open in response:
-            print(response_open)
+            # print(response_open)
+            response_len += 1
+
+        print(response_len)
 
     def find_all_datas(self, data: dict = None) -> None:
         mongo_collection = self.__mongo_connection[self.__collection_name]
         response = mongo_collection.find(data)
+        response_len = 0
 
         for response_open in response:
-            print(response_open)
+            response_len += 1
+
+        print(response_len)
 
     def insert_many_datas(self, data: List[dict]) -> None:
         mongo_collection = self.__mongo_connection[self.__collection_name]
         mongo_collection.insert_many(data)
 
-        print('Os dados foram inseridos com sucesso')
+        print(f'{len(data)} dados foram inseridos na base de dados')
 
-    def find_data_by_id(self, id: str) -> None:
+    def find_data_by_id(self, id: str) -> dict:
         mongo_collection = self.__mongo_connection[self.__collection_name]
         id_object = ObjectId(id)
         response = mongo_collection.find_one({"_id": id_object})
 
-        print(response)
+        return response
+
+    def update_data_by_id(self, id: str, data: dict) -> bool:
+        mongo_collection = self.__mongo_connection[self.__collection_name]
+        id_object = ObjectId(id)
+        reponse = mongo_collection.update_one({
+            "_id": id_object
+        }, {"$set": data})
+
+        return reponse.raw_result.get('updatedExisting')
+
+    def delete_data_by_id(self, id: str) -> int:
+        mongo_collection = self.__mongo_connection[self.__collection_name]
+        id_object = ObjectId(id)
+        reponse = mongo_collection.delete_one({
+            "_id": id_object
+        })
+
+        return reponse.raw_result.get('n')
