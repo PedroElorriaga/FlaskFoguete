@@ -1,12 +1,10 @@
 from pymongo import MongoClient
 
-from src.models.mongodb.repository.interface.order_interface import OrderInterface
-
 from typing import List
 from bson.objectid import ObjectId
 
 
-class OrdersRepository(OrderInterface):
+class OrdersRepository:
     def __init__(self, mongo_connection: MongoClient) -> None:
         self.__collection_name = 'orders'
         self.__mongo_connection = mongo_connection
@@ -55,27 +53,27 @@ class OrdersRepository(OrderInterface):
 
         print(f'{len(data)} dados foram inseridos na base de dados')
 
-    def find_data_by_id(self, id: str) -> dict:
+    def find_data_by_id(self, id: str, show_off: dict) -> dict:
         mongo_collection = self.__mongo_connection[self.__collection_name]
         id_object = ObjectId(id)
-        response = mongo_collection.find_one({"_id": id_object})
+        response = mongo_collection.find_one({"_id": id_object}, show_off)
 
         return response
 
     def update_data_by_id(self, id: str, data: dict) -> bool:
         mongo_collection = self.__mongo_connection[self.__collection_name]
         id_object = ObjectId(id)
-        reponse = mongo_collection.update_one({
+        response = mongo_collection.update_one({
             "_id": id_object
         }, {"$set": data})
 
-        return reponse.raw_result.get('updatedExisting')
+        return response.raw_result.get('updatedExisting')
 
     def delete_data_by_id(self, id: str) -> int:
         mongo_collection = self.__mongo_connection[self.__collection_name]
         id_object = ObjectId(id)
-        reponse = mongo_collection.delete_one({
+        response = mongo_collection.delete_one({
             "_id": id_object
         })
 
-        return reponse.raw_result.get('n')
+        return response.raw_result.get('n')

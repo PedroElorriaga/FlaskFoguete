@@ -7,12 +7,12 @@ class OrdersData:
         self.__orders_repository = orders_repository
 
     def insert_order(self, data: dict | List[dict]) -> None:
-        if type(data) == dict:
+        if isinstance(data, dict):
             self.__orders_repository.insert_one_data(data)
             return
 
         for item in data:
-            if type(item) != dict:
+            if not isinstance(item, dict):
                 raise Exception('Tipos de dados invalidos')
 
         self.__orders_repository.insert_many_datas(data)
@@ -30,27 +30,28 @@ class OrdersData:
     def find_orders_by_parameter(self, parameter: str) -> None:
         self.__orders_repository.find_datas_by_parameter(parameter)
 
-    # TODO arrumar o type de retorno para dict
-    # TODO dividir as responsabilidades de verificacao
-    def find_order_by_id(self, id: str) -> None:
-        response = self.__orders_repository.find_data_by_id(id)
-        if response:
+    def find_order_by_id(self, id: str, show_off: dict = None) -> None:
+        response = self.__orders_repository.find_data_by_id(id, show_off)
+        if self.__check_if_response_is_not_null(response):
             return response
 
         return 'o ID informado não existe'
 
     def update_order_by_id(self, id: str, data: dict) -> None:
         response = self.__orders_repository.update_data_by_id(id, data)
-
-        if response:
+        if self.__check_if_response_is_not_null(response):
             return 'o dado foi atualizado com sucesso!'
 
         return 'o ID informado não existe'
 
     def delete_data_by_id(self, id: str) -> None:
         response = self.__orders_repository.delete_data_by_id(id)
-
-        if response == 1:
+        if self.__check_if_response_is_not_null(response):
             return 'o dado foi excluido com sucesso!'
 
         return 'o ID informado não existe'
+
+    def __check_if_response_is_not_null(self, response: any) -> bool:
+        if response or response == 1:
+            return True
+        return False
