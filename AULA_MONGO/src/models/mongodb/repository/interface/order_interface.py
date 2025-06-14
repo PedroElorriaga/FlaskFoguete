@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import List
 
 
 class OrderInterface(ABC):
@@ -7,7 +8,7 @@ class OrderInterface(ABC):
         pass
 
     @abstractmethod
-    def find_one_data(self, name: dict) -> None:
+    def find_one_data(self, data: dict) -> None:
         pass
 
     @abstractmethod
@@ -15,5 +16,13 @@ class OrderInterface(ABC):
         pass
 
     @abstractmethod
-    def find_all_datas(self) -> None:
+    def find_all_datas(self, data: dict = None) -> None:
+        pass
+
+    @abstractmethod
+    def insert_many_datas(self, data: List[dict]) -> None:
+        pass
+
+    @abstractmethod
+    def find_data_by_id(self, id: str) -> None:
         pass
