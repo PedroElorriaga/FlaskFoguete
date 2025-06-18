@@ -112,28 +112,22 @@ def test_insert_many_orders_in_mongo():
 @pytest.mark.skip(reason='Interação com banco de dados')
 def test_find_order_by_id():
     orders = order_composer()
-    response = orders.find_order_by_id(
-        "684df786f56922ff3a421e6d",
+    orders.find_order_by_id(
+        "6852a7b5fa6338c7ece44b77",
         {"_id": 0}
     )
-
-    print(response)
 
 
 @pytest.mark.skip(reason='Interação com banco de dados')
 def test_update_order_by_id():
     orders = order_composer()
-    response = orders.update_order_by_id("684dfbd92a19766937d799a8", {
+    orders.update_order_by_id("6852a7b5fa6338c7ece44b77", {
         "info_produto.nacional": True,
         "info_produto.ano": "2022"
     })
-
-    print(response)
 
 
 @pytest.mark.skip(reason='Interação com banco de dados')
 def test_delete_data_by_id():
     orders = order_composer()
-    response = orders.delete_data_by_id('684dfbd92a19766937d799a8')
-
-    print(response)
+    orders.delete_data_by_id('6852a7b5fa6338c7ece44b76')

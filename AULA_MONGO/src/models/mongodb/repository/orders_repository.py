@@ -1,6 +1,6 @@
 from pymongo import MongoClient
 
-from typing import List
+from typing import List, Optional
 from bson.objectid import ObjectId
 
 
@@ -9,51 +9,50 @@ class OrdersRepository:
         self.__collection_name = 'orders'
         self.__mongo_connection = mongo_connection
 
-    def insert_one_data(self, data: dict) -> None:
+    def insert_one_data(self, data: dict) -> dict:
         mongo_collection = self.__mongo_connection[self.__collection_name]
         mongo_collection.insert_one(data)
 
-        product = data['produto'].capitalize()
+        return data
 
-        print(f'{product} criado com sucesso')
-
-    def find_one_data(self, data: dict) -> None:
+    def find_one_data(self, data: dict, show_off: dict = None) -> dict:
         mongo_collection = self.__mongo_connection[self.__collection_name]
-        response = mongo_collection.find_one(data)
+        response = mongo_collection.find_one(data, show_off)
 
-        print(response)
+        return response
 
-    def find_datas_by_parameter(self, parameter: str) -> None:
+    def find_datas_by_parameter(self, parameter: str, show_off: dict = None) -> List[Optional[dict]]:
         mongo_collection = self.__mongo_connection[self.__collection_name]
         response = mongo_collection.find(
-            {parameter: {"$exists": True}}
+            {parameter: {"$exists": True}},
+            show_off
         )
-        response_len = 0
+        response_list = []
 
         # FAZEMOS ISSO QUANDO TEMOS UM RETORNO COMO UM CURSOR (RETORNO DE UM BANCO DE DADOS)
         for response_open in response:
             # print(response_open)
-            response_len += 1
+            response_list.append(response_open)
 
-        print(response_len)
+        return response_list
 
-    def find_all_datas(self, data: dict = None) -> None:
+    def find_all_datas(self, data: dict = None, show_off: dict = None) -> List[Optional[dict]]:
         mongo_collection = self.__mongo_connection[self.__collection_name]
-        response = mongo_collection.find(data)
-        response_len = 0
+        response = mongo_collection.find(data, show_off)
+        response_list = []
 
         for response_open in response:
-            response_len += 1
+            response_list.append(response_open)
 
-        print(response_len)
+        return response_list
 
-    def insert_many_datas(self, data: List[dict]) -> None:
+    def insert_many_datas(self, data: List[dict]) -> List[dict]:
         mongo_collection = self.__mongo_connection[self.__collection_name]
         mongo_collection.insert_many(data)
 
-        print(f'{len(data)} dados foram inseridos na base de dados')
+        return data
 
-    def find_data_by_id(self, id: str, show_off: dict) -> dict:
+    def find_data_by_id(self, id: str, show_off: dict = None) -> dict:
         mongo_collection = self.__mongo_connection[self.__collection_name]
         id_object = ObjectId(id)
         response = mongo_collection.find_one({"_id": id_object}, show_off)
