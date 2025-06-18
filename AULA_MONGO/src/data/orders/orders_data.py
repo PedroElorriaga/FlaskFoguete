@@ -16,13 +16,16 @@ class OrdersData:
 
         return self.__orders_repository.insert_many_datas(data)
 
-    def find_order(self, name: dict = None, first: bool = False) -> dict | List[Optional[dict]]:
-        if name and first:
-            return self.__orders_repository.find_one_data(name)
-        elif name:
-            return self.__orders_repository.find_all_datas(name)
+    def find_order(self, name: dict = None, first: bool = False, show_off: list = None) -> dict | List[Optional[dict]]:
+        parameters_show_off = {}
+        if len(show_off) > 0:
+            for parameter in show_off:
+                parameters_show_off[str(parameter)] = 0
 
-        return self.__orders_repository.find_all_datas()
+        if first:
+            return self.__orders_repository.find_one_data(name, show_off=parameters_show_off)
+
+        return self.__orders_repository.find_all_datas(name, show_off=parameters_show_off)
 
     def find_orders_by_parameter(self, parameter: str) -> List[Optional[dict]]:
         return self.__orders_repository.find_datas_by_parameter(parameter)
@@ -37,7 +40,7 @@ class OrdersData:
     def update_order_by_id(self, id: str, data: dict) -> bool:
         response = self.__orders_repository.update_data_by_id(id, data)
         if self.__check_if_response_is_not_null(response):
-            return True
+            return self.find_order_by_id(id, show_off={"_id": 0})
 
         raise Exception('o ID informado não existe')
 
