@@ -21,6 +21,7 @@ numpy = "*"
 redis = "*"
 pylint = "*"
 pymongo = "*"
+pyjwt = "*"
 
 [dev-packages]
 
