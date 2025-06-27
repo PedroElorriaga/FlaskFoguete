@@ -1,0 +1,98 @@
+from src.models.sqlite.repository.users_repository import UsersRepository
+from src.http_types.http_response import HttpResponse
+
+
+class UsersData:
+    def __init__(self, users_repository: UsersRepository) -> None:
+        self.__users_repository = users_repository
+
+    def insert_user(self, data: dict) -> HttpResponse:
+        if isinstance(data, dict):
+            try:
+                check_responses = [self.__check_if_user_already_exists(
+                    {"nome_usuario": data['nome_usuario']}), self.__check_if_user_already_exists(
+                    {"email": data['email']})]
+
+                for check in check_responses:
+                    if check:
+                        if isinstance(check[0], HttpResponse):
+                            return check[0]
+                        key = list(check[1].keys())[0]
+                        return HttpResponse(
+                            {"message": f"O {key} ja existe"},
+                            400
+                        )
+
+                response = self.__users_repository.insert_data(
+                    data['nome_usuario'],
+                    data['agencia'],
+                    data['conta'],
+                    data['email'],
+                    data['senha']
+                )
+                if response:
+                    return HttpResponse(
+                        {"message": "Usuario incluido com sucesso"},
+                        200
+                    )
+            except Exception as exc:
+                print(f'Ocorreu um erro no INSERT USER: {str(exc)}')
+                return HttpResponse(
+                    {"message": "Algo deu errado com sua solicitação"},
+                    400
+                )
+
+    def find_user(self, data: dict) -> HttpResponse:
+        try:
+            data_keys = ['id', 'nome_usuario', 'email']
+            for key in data_keys:
+                if data.get(key):  # SE DATA['ID'] EXISTE POR EXEMPLO
+                    response = self.__users_repository.search_data(
+                        **{key: data[key]})  # ARGUMENT UNPACKING -> {"id": 123} -> id=123
+                    if response:
+                        return HttpResponse(
+                            {
+                                "message": "Usuario encontrado!",
+                                "usuario": {
+                                    "id": response[0],
+                                    "nome_usuario": response[1],
+                                    "agencia": response[2],
+                                    "conta": response[3],
+                                    "email": response[4]
+                                }
+                            },
+                            200
+                        )
+                    return HttpResponse(
+                        {
+                            "message": "Usuario não encontrado"
+                        },
+                        400
+                    )
+            return HttpResponse(
+                {
+                    "message": "Parametro de busca inválido"
+                },
+                400
+            )
+        except Exception as exc:
+            print(f'Ocorreu um erro no FIND USER: {str(exc)}')
+            if str(exc) == 'Nenhum valor de consulta valido':
+                return HttpResponse(
+                    {"message": str(exc)},
+                    400
+                )
+            return HttpResponse(
+                {"message": "Algo deu errado com sua solicitação"},
+                400
+            )
+
+    def __check_if_user_already_exists(self, data: dict) -> bool | tuple:
+        response = self.find_user(data)
+
+        if response.status == 200:
+            return (True, data)
+        elif response.status == 400 and response.body == {"message": "Usuario não encontrado"}:
+            return False
+        else:
+            return (response, data)

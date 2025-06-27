@@ -1,7 +1,7 @@
 from datetime import datetime, timezone, timedelta
-
 from flask import Blueprint, jsonify, request
-from src.main.security.jwt_handler import JWTHandler
+from src.security.jwt_handler import JWTHandler
+from src.main.composers.users.users_composer import user_composer
 
 login_router = Blueprint('login_router', __name__, url_prefix='/login')
 
@@ -26,3 +26,23 @@ def test2() -> jsonify:
     jwt = jwt_instance.decode_jwt(jwt_encoded)
 
     return jsonify({"message": jwt}), 200
+
+
+@login_router.route('/test3', methods=['POST'])
+def test3() -> jsonify:
+    data = request.json
+    users = user_composer()
+
+    response = users.insert_user(data)
+
+    return jsonify(response.body), response.status
+
+
+@login_router.route('/test4', methods=['POST'])
+def test4() -> jsonify:
+    data = request.json
+    users = user_composer()
+
+    response = users.find_user(data)
+
+    return jsonify(response.body), response.status
