@@ -1,5 +1,6 @@
 from src.models.sqlite.repository.users_repository import UsersRepository
 from src.http_types.http_response import HttpResponse
+from src.security.password_handle import PasswordHandle
 
 
 class UsersData:
@@ -23,16 +24,18 @@ class UsersData:
                             400
                         )
 
+                password_handle = PasswordHandle()
+
                 response = self.__users_repository.insert_data(
                     data['nome_usuario'],
                     data['agencia'],
                     data['conta'],
                     data['email'],
-                    data['senha']
+                    password_handle.hash_password(data['senha'])
                 )
                 if response:
                     return HttpResponse(
-                        {"message": "Usuario incluido com sucesso"},
+                        {"message": "Usuario criado com sucesso"},
                         200
                     )
             except Exception as exc:
@@ -87,6 +90,35 @@ class UsersData:
                 400
             )
 
+    def login_user(self, data: dict) -> HttpResponse:
+        if not data.get('senha'):
+            return HttpResponse(
+                {"message": "Senha obrigatoria"},
+                400
+            )
+
+        data_keys = ['nome_usuario', 'email']
+        for key in data_keys:
+            if data.get(key):
+                response = self.__users_repository.search_data(
+                    **{key: data[key]})
+                if response:
+                    if self.__check_if_passwords_matches(data.get('senha'), response[5]):
+                        return HttpResponse(
+                            {"message": "Usuario logado com sucesso"},
+                            200
+                        )
+                return HttpResponse(
+                    {"message": "Credenciais invalidas"},
+                    400
+                )
+        return HttpResponse(
+            {
+                "message": "Parametro de busca inválido"
+            },
+            400
+        )
+
     def __check_if_user_already_exists(self, data: dict) -> bool | tuple:
         response = self.find_user(data)
 
@@ -96,3 +128,10 @@ class UsersData:
             return False
         else:
             return (response, data)
+
+    def __check_if_passwords_matches(self, password: str, password_hashed: bytes) -> bool:
+        password_handle = PasswordHandle()
+        if password_handle.check_password(password, password_hashed):
+            return True
+        else:
+            return False

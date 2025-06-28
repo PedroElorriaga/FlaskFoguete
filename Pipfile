@@ -10,7 +10,6 @@ werkzeug = "*"
 flask = {extras = ["async"], version = "*"}
 pymysql = "*"
 cryptography = "*"
-bcrypt = "*"
 pytz = "*"
 qrcode = "*"
 pillow = "*"
@@ -22,6 +21,7 @@ redis = "*"
 pylint = "*"
 pymongo = "*"
 pyjwt = "*"
+bcrypt = "*"
 
 [dev-packages]
 
