@@ -1,9 +1,10 @@
 from sqlite3 import Connection
 from datetime import datetime, timezone
 from typing import Optional
+from src.models.sqlite.interface.users_interface import UsersInterface
 
 
-class UsersRepository:
+class UsersRepository(UsersInterface):
     def __init__(self, sqlite_connection: Connection) -> None:
         self.__sqlite_connection = sqlite_connection
 

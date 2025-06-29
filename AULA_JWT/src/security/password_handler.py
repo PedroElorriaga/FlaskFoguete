@@ -1,7 +1,7 @@
 import bcrypt
 
 
-class PasswordHandle:
+class PasswordHandler:
     def hash_password(self, password: str) -> bytes:
         bytes = password.encode('utf-8')
         salt = bcrypt.gensalt()
@@ -14,4 +14,3 @@ class PasswordHandle:
 
         if bcrypt.checkpw(password, password_hashed):
             return True
-        return False

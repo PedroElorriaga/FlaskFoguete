@@ -1,6 +1,6 @@
 from src.models.sqlite.repository.users_repository import UsersRepository
 from src.http_types.http_response import HttpResponse
-from src.security.password_handle import PasswordHandle
+from AULA_JWT.src.security.password_handler import PasswordHandler
 
 
 class UsersData:
@@ -24,14 +24,14 @@ class UsersData:
                             400
                         )
 
-                password_handle = PasswordHandle()
+                password_handler = PasswordHandler()
 
                 response = self.__users_repository.insert_data(
                     data['nome_usuario'],
                     data['agencia'],
                     data['conta'],
                     data['email'],
-                    password_handle.hash_password(data['senha'])
+                    password_handler.hash_password(data['senha'])
                 )
                 if response:
                     return HttpResponse(
@@ -130,8 +130,8 @@ class UsersData:
             return (response, data)
 
     def __check_if_passwords_matches(self, password: str, password_hashed: bytes) -> bool:
-        password_handle = PasswordHandle()
-        if password_handle.check_password(password, password_hashed):
+        password_handler = PasswordHandler()
+        if password_handler.check_password(password, password_hashed):
             return True
         else:
             return False
