@@ -3,7 +3,7 @@ from src.http_types.http_response import HttpResponse
 from AULA_JWT.src.security.password_handler import PasswordHandler
 
 
-class UsersData:
+class UsersController:
     def __init__(self, users_repository: UsersRepository) -> None:
         self.__users_repository = users_repository
 

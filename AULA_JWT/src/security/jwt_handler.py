@@ -1,18 +1,20 @@
 import jwt
 
+from settings.env_configs import EnvConfig
+
 
 class JWTHandler:
     def encode_jwt(self, payload: dict) -> str:
         jwt_encoded = jwt.encode(
             payload,
-            key='abc123def456',
-            algorithm='HS256'
+            key=EnvConfig().JWT_KEY,
+            algorithm=EnvConfig().JWT_ALGORITHM
         )
 
         return jwt_encoded
 
     def decode_jwt(self, jwt_encoded: jwt) -> dict:
         jwt_decoded = jwt.decode(
-            jwt_encoded, key='abc123def456', algorithms='HS256')
+            jwt_encoded, key=EnvConfig().JWT_KEY, algorithm=EnvConfig().JWT_ALGORITHM)
 
         return jwt_decoded
