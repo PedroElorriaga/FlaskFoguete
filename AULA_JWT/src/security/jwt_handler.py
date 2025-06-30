@@ -13,8 +13,8 @@ class JWTHandler:
 
         return jwt_encoded
 
-    def decode_jwt(self, jwt_encoded: jwt) -> dict:
+    def decode_jwt(self, jwt_encoded: str) -> dict:
         jwt_decoded = jwt.decode(
-            jwt_encoded, key=EnvConfig().JWT_KEY, algorithm=EnvConfig().JWT_ALGORITHM)
+            jwt_encoded, key=EnvConfig().JWT_KEY, algorithms=EnvConfig().JWT_ALGORITHM)
 
         return jwt_decoded
