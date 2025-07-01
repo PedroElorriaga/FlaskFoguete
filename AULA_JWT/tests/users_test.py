@@ -20,7 +20,8 @@ def test_create_new_user():
         'agencia': 1111,
         'conta': 7,
         'email': 'johnDoe@test.py',
-        'senha': '123abc'
+        'senha': '123abc',
+        'saldo': 999.99
     }
 
     response = users_controller.insert_user(data)
@@ -90,7 +91,7 @@ def test_login_user():
     password_handler = PasswordHandler()
     connection = MockConnection()
     mock_cursor = connection.cursor()
-    mock_cursor.fetchone.return_value = (1, 'John Doe', 1111, 7,
+    mock_cursor.fetchone.return_value = (1, 'John Doe', 1111, 7, 999.99,
                                          'johnDoe@test.py', password_handler.hash_password('hash123'))
     mock_cursor.lastrowid = 1
 
@@ -111,7 +112,7 @@ def test_login_wrong_user():
     password_handler = PasswordHandler()
     connection = MockConnection()
     mock_cursor = connection.cursor()
-    mock_cursor.fetchone.return_value = (1, 'John Doe', 1111, 7,
+    mock_cursor.fetchone.return_value = (1, 'John Doe', 1111, 7, 999.99,
                                          'johnDoe@test.py', password_handler.hash_password('hash123'))
     mock_cursor.lastrowid = 1
 

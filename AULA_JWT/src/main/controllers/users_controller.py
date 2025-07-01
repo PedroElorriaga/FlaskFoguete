@@ -30,6 +30,7 @@ class UsersController:
                     data['nome_usuario'],
                     data['agencia'],
                     data['conta'],
+                    data['saldo'],
                     data['email'],
                     password_handler.hash_password(data['senha'])
                 )
@@ -61,7 +62,8 @@ class UsersController:
                                     "nome_usuario": response[1],
                                     "agencia": response[2],
                                     "conta": response[3],
-                                    "email": response[4]
+                                    "saldo": response[4],
+                                    "email": response[5]
                                 }
                             },
                             200
@@ -103,7 +105,7 @@ class UsersController:
                 response = self.__users_repository.search_data(
                     **{key: data[key]})
                 if response:
-                    if self.__check_if_passwords_matches(data.get('senha'), response[5]):
+                    if self.__check_if_passwords_matches(data.get('senha'), response[6]):
                         return HttpResponse(
                             {"message": "Usuario logado com sucesso"},
                             200

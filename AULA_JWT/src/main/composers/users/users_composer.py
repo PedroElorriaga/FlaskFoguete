@@ -1,5 +1,5 @@
 from src.models.sqlite.settings.sqlite_connection import SqliteConnection
-from AULA_JWT.src.main.controllers.users_controller import UsersController
+from src.main.controllers.users_controller import UsersController
 from src.models.sqlite.repository.users_repository import UsersRepository
 
 

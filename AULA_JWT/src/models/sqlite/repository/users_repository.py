@@ -8,16 +8,16 @@ class UsersRepository(UsersInterface):
     def __init__(self, sqlite_connection: Connection) -> None:
         self.__sqlite_connection = sqlite_connection
 
-    def insert_data(self, nome_usuario: str, agencia: int, conta: int, email: str, senha: str) -> bool:
+    def insert_data(self, nome_usuario: str, agencia: int, conta: int, saldo: float, email: str, senha: str) -> bool:
         cursor = self.__sqlite_connection.cursor()
         cursor.execute(
             '''
                 INSERT INTO users
-                    (nome_usuario, agencia, conta, email, hash_senha, criado_em)
+                    (nome_usuario, agencia, conta, saldo, email, hash_senha, criado_em)
                 VALUES
-                    (?, ?, ?, ?, ?, ?)
+                    (?, ?, ?, ?, ?, ?, ?)
             ''',
-            (nome_usuario, agencia, conta, email,
+            (nome_usuario, agencia, conta, saldo, email,
              senha, datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S"))
         )
         self.__sqlite_connection.commit()
