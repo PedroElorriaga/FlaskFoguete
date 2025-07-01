@@ -4,7 +4,7 @@ from unittest.mock import Mock
 # Simula um objeto cursor do SQLite
 class MockCursor:
     def __init__(self) -> None:
-        self.execute = Mock()
+        self.execute = Mock(return_value=self)
         self.fetchone = Mock()
         self.lastrowid = Mock()
         '''

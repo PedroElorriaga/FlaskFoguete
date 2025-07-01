@@ -1,6 +1,6 @@
 from src.models.sqlite.repository.users_repository import UsersRepository
 from src.http_types.http_response import HttpResponse
-from AULA_JWT.src.security.password_handler import PasswordHandler
+from src.security.password_handler import PasswordHandler
 
 
 class UsersController:
