@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Optional
+from typing import Optional, List
 
 
 class UsersInterface(ABC):
@@ -9,4 +9,8 @@ class UsersInterface(ABC):
 
     @abstractmethod
     def search_data(self, id: Optional[int] = None, nome_usuario: Optional[str] = None, email: Optional[str] = None) -> tuple:
+        pass
+
+    @abstractmethod
+    def search_all_datas(self) -> List[tuple]:
         pass

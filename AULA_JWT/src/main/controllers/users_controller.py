@@ -1,11 +1,14 @@
 from src.models.sqlite.repository.users_repository import UsersRepository
 from src.http_types.http_response import HttpResponse
 from src.security.password_handler import PasswordHandler
+from src.security.jwt_handler import JWTHandler
+from datetime import datetime, timedelta, timezone
 
 
 class UsersController:
     def __init__(self, users_repository: UsersRepository) -> None:
         self.__users_repository = users_repository
+        self.__jwt_handler = JWTHandler()
 
     def insert_user(self, data: dict) -> HttpResponse:
         if isinstance(data, dict):
@@ -45,6 +48,20 @@ class UsersController:
                     {"message": "Algo deu errado com sua solicitação"},
                     400
                 )
+
+    def find_all_users(self) -> HttpResponse:
+        response = self.__users_repository.search_all_datas()
+        for item in response:
+            item.pop('hash_senha', None)
+
+        if len(response) > 0:
+            return HttpResponse(
+                {
+                    "message": f"{len(response)} usuarios encontrados",
+                    "usuarios": response
+                },
+                200
+            )
 
     def find_user(self, data: dict) -> HttpResponse:
         try:
@@ -106,8 +123,14 @@ class UsersController:
                     **{key: data[key]})
                 if response:
                     if self.__check_if_passwords_matches(data.get('senha'), response[6]):
+                        token = self.__generate_token(response[0], response[5])
                         return HttpResponse(
-                            {"message": "Usuario logado com sucesso"},
+                            {
+                                "message": "Usuario logado com sucesso",
+                                "id": response[0],
+                                "email": response[5],
+                                "token": token
+                            },
                             200
                         )
                 return HttpResponse(
@@ -137,3 +160,9 @@ class UsersController:
             return True
         else:
             return False
+
+    def __generate_token(self, id: int, email: str) -> str:
+        token = self.__jwt_handler.encode_jwt(
+            {'id': id, 'email': email, 'exp': datetime.now(timezone.utc) + timedelta(days=6)})
+
+        return token

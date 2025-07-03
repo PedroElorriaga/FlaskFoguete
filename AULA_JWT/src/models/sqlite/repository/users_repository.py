@@ -1,6 +1,6 @@
 from sqlite3 import Connection
 from datetime import datetime, timezone
-from typing import Optional
+from typing import Optional, List
 from src.models.sqlite.interface.users_interface import UsersInterface
 
 
@@ -38,3 +38,14 @@ class UsersRepository(UsersInterface):
         )
         user = response.fetchone()
         return user
+
+    def search_all_datas(self) -> List[dict]:
+        cursor = self.__sqlite_connection.cursor()
+        response = cursor.execute(
+            '''
+                SELECT * FROM users
+            '''
+        )
+        columns = [desc[0] for desc in response.description]
+        rows = cursor.fetchall()
+        return [dict(zip(columns, row)) for row in rows]
