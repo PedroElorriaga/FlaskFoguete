@@ -1,7 +1,7 @@
 from codigos import fizz_buzz
 
 
-def test_fizz_buzz_retorna_fizz():
+def test_unitario_fizz_buzz_retorna_fizz():
     # 4 FASES -> SetUp / Exercise / Verify / TearDown
 
     # SetUp
@@ -15,7 +15,7 @@ def test_fizz_buzz_retorna_fizz():
     assert resultado == retorno_esperado
 
 
-def test_fizz_buzz_retorna_buzz():
+def test_unitario_fizz_buzz_retorna_buzz():
     # 4 FASES -> SetUp / Exercise / Verify / TearDown
 
     # SetUp
@@ -29,7 +29,7 @@ def test_fizz_buzz_retorna_buzz():
     assert resultado == retorno_esperado
 
 
-def test_fizz_buzz_retorna_fizzbuzz():
+def test_unitario_fizz_buzz_retorna_fizzbuzz():
     # 4 FASES -> SetUp / Exercise / Verify / TearDown
 
     # SetUp
@@ -43,7 +43,7 @@ def test_fizz_buzz_retorna_fizzbuzz():
     assert resultado == retorno_esperado
 
 
-def test_fizz_buzz_retorna_valor_do_input():
+def test_unitario_fizz_buzz_retorna_valor_do_input():
     # 4 FASES -> SetUp / Exercise / Verify / TearDown
 
     # SetUp
