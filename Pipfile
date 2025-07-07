@@ -24,6 +24,7 @@ pyjwt = "*"
 bcrypt = "*"
 pydantic = "*"
 pydantic-settings = "*"
+pytest-cov = "*"
 
 [dev-packages]
 
