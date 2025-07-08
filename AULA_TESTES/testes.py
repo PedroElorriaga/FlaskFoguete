@@ -1,4 +1,4 @@
-from codigos import fizz_buzz
+from codigos import fizz_buzz, CardTask, CardMutations
 
 
 def test_unitario_fizz_buzz_retorna_fizz():
@@ -55,3 +55,31 @@ def test_unitario_fizz_buzz_retorna_valor_do_input():
 
     # Verify
     assert resultado == retorno_esperado
+
+
+def test_unitario_card_task_setup():
+    # SetUp
+    tarefa_id = 1
+    tarefa = 'Temperar frango'
+    status = 'Fazendo'
+
+    # Exercise
+    card = CardTask(tarefa_id, tarefa, status)
+
+    # Verify
+    assert card.id == tarefa_id
+    assert card.tarefa == tarefa
+    assert card.status == status
+
+
+def test_unitario_create_task():
+    # SetUp
+    tarefa = 'Temperar frango'
+    status = 'Fazendo'
+
+    # Exercise
+    card_mutation = CardMutations()
+    resposta = card_mutation.create_task(tarefa, status)
+
+    assert resposta.tarefa == tarefa
+    assert resposta.status == status
