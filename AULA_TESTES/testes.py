@@ -112,3 +112,14 @@ def test_unitario_atualizar_uma_tarefa():
 
     assert isinstance(resposta, CardTask)
     assert resposta.id == data['id']
+
+
+def test_unitario_atualizar_uma_tarefa_nao_existente():
+    # SetUp
+    data = {'id': 10, 'status': 'Feito'}
+
+    # Exercise
+    card_mutation = CardMutations()
+    resposta = card_mutation.update_task(data)
+
+    assert resposta == None

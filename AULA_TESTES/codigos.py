@@ -37,7 +37,7 @@ class CardMutations:
     def list_tasks(self) -> list[CardTask]:
         return self.lista_de_tarefas
 
-    def update_task(self, data: dict) -> CardTask:
+    def update_task(self, data: dict) -> CardTask | None:
         itens_para_update = ['tarefa', 'status']
 
         # O(n) -> Nivel Linear
