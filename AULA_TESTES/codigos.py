@@ -33,3 +33,27 @@ class CardMutations:
         self.id_increment += 1
 
         return card
+
+    def list_tasks(self) -> list[CardTask]:
+        return self.lista_de_tarefas
+
+    def update_task(self, data: dict) -> CardTask:
+        itens_para_update = ['tarefa', 'status']
+
+        # O(n) -> Nivel Linear
+        # tarefa_original = [
+        #     tarefa for tarefa in self.lista_de_tarefas if tarefa.id == data['id']]
+
+        # O(1) -> Nivel de constante
+        tarefa_original = next(
+            (tarefa for tarefa in self.lista_de_tarefas if tarefa.id ==
+             data['id']),
+            None
+        )
+
+        if tarefa_original:
+            for item in data:
+                if item in itens_para_update:
+                    setattr(tarefa_original, item, data[item])
+
+        return tarefa_original

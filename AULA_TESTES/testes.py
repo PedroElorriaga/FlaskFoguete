@@ -72,7 +72,7 @@ def test_unitario_card_task_setup():
     assert card.status == status
 
 
-def test_unitario_create_task():
+def test_unitario_criar_tarefa():
     # SetUp
     tarefa = 'Temperar frango'
     status = 'Fazendo'
@@ -83,3 +83,32 @@ def test_unitario_create_task():
 
     assert resposta.tarefa == tarefa
     assert resposta.status == status
+
+
+def test_unitario_listar_tarefas():
+    # SetUp
+    tarefa = 'Temperar frango'
+    status = 'Fazendo'
+
+    # Exercise
+    card_mutation = CardMutations()
+    card_mutation.create_task(tarefa, status)
+    resposta = card_mutation.list_tasks()
+
+    assert len(resposta) > 0
+    assert isinstance(resposta, list)
+
+
+def test_unitario_atualizar_uma_tarefa():
+    # SetUp
+    tarefa = 'Temperar frango'
+    status = 'Fazendo'
+    data = {'id': 1, 'status': 'Feito'}
+
+    # Exercise
+    card_mutation = CardMutations()
+    card_mutation.create_task(tarefa, status)
+    resposta = card_mutation.update_task(data)
+
+    assert isinstance(resposta, CardTask)
+    assert resposta.id == data['id']
