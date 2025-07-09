@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from sqlite3 import Connection
 
 
 def fizz_buzz(number: int) -> str | int:
@@ -57,3 +58,15 @@ class CardMutations:
                     setattr(tarefa_original, item, data[item])
 
         return tarefa_original
+
+
+class DataBaseSimulation:
+    def __init__(self, conexao_sqlite: Connection) -> None:
+        self.cursor = conexao_sqlite.cursor()
+
+    def get_card(self, id: int) -> tuple:
+        resultado_da_busca = self.cursor.execute(
+            "SELECT * FROM produtos WHERE id=?", (id))
+        informacao_do_resultado = resultado_da_busca.fetchone()
+
+        return informacao_do_resultado
