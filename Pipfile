@@ -25,6 +25,7 @@ bcrypt = "*"
 pydantic = "*"
 pydantic-settings = "*"
 pytest-cov = "*"
+requests = "*"
 
 [dev-packages]
 

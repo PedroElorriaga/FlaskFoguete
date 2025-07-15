@@ -1,7 +1,7 @@
 import pytest
 
-from unittest.mock import MagicMock
-from codigos import fizz_buzz, CardTask, CardMutations, DataBaseSimulation
+from unittest.mock import MagicMock, patch
+from codigos import fizz_buzz, CardTask, CardMutations, DataBaseSimulation, api_simulation
 
 
 def test_unitario_fizz_buzz_retorna_fizz():
@@ -155,3 +155,55 @@ def test_unitario_buscar_dado_na_base_de_dados(mock_conexao):
     )
     # FOI CHAMADO ESSA FUNÇÃO EXECUTE ?
     mock_conexao.cursor().execute.assert_called()
+
+
+@pytest.fixture
+def mock_request() -> MagicMock:
+    resposta = MagicMock()
+    resposta.status_code = 200
+    resposta.json.return_value = {
+        "cep": "06449-410",
+        "logradouro": "Rua Urânia",
+        "complemento": "",
+        "unidade": "",
+        "bairro": "Parque Viana",
+        "localidade": "Barueri",
+        "uf": "SP",
+        "estado": "São Paulo",
+        "regiao": "Sudeste",
+        "ibge": "3505708",
+        "gia": "2069",
+        "ddd": "11",
+        "siafi": "6213"
+    }
+
+    return resposta
+
+
+@patch('requests.get')
+# A ordem dos parâmetros é invertida: o último patch vem como primeiro argumento.
+# Não foi utilizada nesse caso a ordem dos parametros invertidos
+def test_unitario_cep_api(mock_get, mock_request):
+    # SetUp
+    mock_get.return_value = mock_request
+    resultado_esperado = {
+        "cep": "06449-410",
+        "logradouro": "Rua Urânia",
+        "complemento": "",
+        "unidade": "",
+        "bairro": "Parque Viana",
+        "localidade": "Barueri",
+        "uf": "SP",
+        "estado": "São Paulo",
+        "regiao": "Sudeste",
+        "ibge": "3505708",
+        "gia": "2069",
+        "ddd": "11",
+        "siafi": "6213"
+    }
+    cep_input = '06449410'
+
+    # Exercise
+    resposta = api_simulation(cep_input)
+
+    assert resposta == resultado_esperado

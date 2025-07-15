@@ -70,3 +70,12 @@ class DataBaseSimulation:
         informacao_do_resultado = resultado_da_busca.fetchone()
 
         return informacao_do_resultado
+
+
+def api_simulation(cep):
+    import requests
+
+    resposta = requests.get(f"https://viacep.com.br/ws/{cep}/json/")
+    if resposta.status_code == 200:
+        return resposta.json()
+    return None
