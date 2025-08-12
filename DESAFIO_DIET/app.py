@@ -1,14 +1,15 @@
 from flask import Flask
+from flask_migrate import Migrate
 from database.database import db
 from routes.meal_routes import meal_routes
-
+from configs.config import Config
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'BLABLAcarDUvitao2024'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:admin123@127.0.0.1:3309/desafio-meal'
+app.config.from_object(Config)
 app.register_blueprint(meal_routes, url_prefix='/meal')
 
 db.init_app(app)
+migrate = Migrate(app, db)
 
 
 if __name__ == '__main__':

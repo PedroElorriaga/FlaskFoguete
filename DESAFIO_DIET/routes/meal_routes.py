@@ -22,7 +22,8 @@ def register():
 
     if nome and descricao and type(diet) == bool:
         new_meal = Meal(nome=nome, descricao=descricao,
-                        date=make_datetime_action(), diet=diet)
+                        date=make_datetime_action(), diet=diet,
+                        caloria='TESTE')
 
         db.session.add(new_meal)
         db.session.commit()
@@ -59,7 +60,7 @@ def list_all():
     if meals_from_db:
         meal_list = [{"id": meal.id, "nome": meal.nome,
                       "descricao": meal.descricao,
-                      "date": meal.date, "dieta": meal.diet} for meal in meals_from_db]
+                      "date": meal.date, "dieta": meal.diet, "caloria": meal.caloria} for meal in meals_from_db]
         return jsonify(meal_list)
 
     return jsonify({"message": "Não existem nenhum item na base de dados"}), 403

@@ -26,6 +26,7 @@ pydantic = "*"
 pydantic-settings = "*"
 pytest-cov = "*"
 requests = "*"
+flask-migrate = "*"
 
 [dev-packages]
 

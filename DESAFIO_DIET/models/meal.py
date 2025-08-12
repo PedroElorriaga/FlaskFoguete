@@ -7,3 +7,4 @@ class Meal(db.Model):
     descricao = db.Column(db.String(255), nullable=False)
     date = db.Column(db.DateTime, nullable=False)
     diet = db.Column(db.Boolean, nullable=False)
+    caloria = db.Column(db.String(80), nullable=False)
